@@ -1,8 +1,9 @@
 package com.example.tp_unsplash.api
 
-//import retrofit2.http.GET
+import com.example.tp_unsplash.schemas.UnSplashPhoto
+import retrofit2.http.GET
 
 interface UnSplashRetrofitService {
-    //@GET("/photos/random")
-    suspend fun getData(): List<String>
+    @GET("/photos/random?count=10")
+    suspend fun getData(): List<UnSplashPhoto>
 }
