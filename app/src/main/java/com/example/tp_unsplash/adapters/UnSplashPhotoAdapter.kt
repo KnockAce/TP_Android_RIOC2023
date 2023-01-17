@@ -1,21 +1,25 @@
 package com.example.tp_unsplash.adapters
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.tp_unsplash.R
 import com.example.tp_unsplash.schemas.UnSplashPhoto
 
 class UnSplashPhotoAdapter(private var photos: List<UnSplashPhoto>) : RecyclerView.Adapter<UnSplashPhotoAdapter.UnSplashPhotoViewHolder>() {
     class UnSplashPhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val firstName: TextView = itemView.findViewById(R.id.photo)
+        val photo: ImageView = itemView.findViewById(R.id.photo_small)
 
-
-        fun bind(photo: UnSplashPhoto) {
-            firstName.text = photo.description
-
+        fun bind(unsplash_photo: UnSplashPhoto) {
+            firstName.text = unsplash_photo.description
+            val uri : Uri = Uri.parse(unsplash_photo.urls.small)
+            photo.load(unsplash_photo.urls.small)
         }
     }
 
