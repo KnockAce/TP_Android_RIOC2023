@@ -19,18 +19,18 @@ class PhotoViewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPhotoViewBinding
     private lateinit var viewModel: UnSplashViewModel
     private lateinit var adapter: UnSplashPhotoAdapter
-    private lateinit var service: UnSplashRetrofitService
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityPhotoViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        service = UnSplashRetrofit.getService()
+        // Service for api calls
+        val service: UnSplashRetrofitService = UnSplashRetrofit.getService()
+        // Repository that will be used by the view model
         val repository = UnSplashRepository(service)
-        adapter = UnSplashPhotoAdapter(listOf())
+        adapter = UnSplashPhotoAdapter(listOf(), this)
         viewModel = ViewModelProvider(this, UnSplashViewModelFactory(repository)).get(UnSplashViewModel::class.java)
-
     }
 
     override fun onStart() {

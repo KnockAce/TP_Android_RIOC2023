@@ -15,6 +15,9 @@
         android:theme="@style/Theme.TP_Unsplash"
         tools:targetApi="31">
         <activity
+            android:name=".DetailPhotoView"
+            android:exported="false" />
+        <activity
             android:name=".PhotoViewActivity"
             android:exported="false"
             android:label="@string/title_activity_photo_view"
