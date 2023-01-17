@@ -1,5 +1,7 @@
 package com.example.tp_unsplash.schemas
 
+import android.net.Uri
+
 data class Links(
     val self: String,
     val html: String,

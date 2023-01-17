@@ -19,7 +19,7 @@ class UnSplashPhotoAdapter(private var photos: List<UnSplashPhoto>) : RecyclerVi
         fun bind(unsplash_photo: UnSplashPhoto) {
             firstName.text = unsplash_photo.description
             val uri : Uri = Uri.parse(unsplash_photo.urls.small)
-            photo.load(unsplash_photo.urls.small)
+            photo.load(uri)
         }
     }
 
