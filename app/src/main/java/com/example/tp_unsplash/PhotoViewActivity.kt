@@ -29,7 +29,7 @@ class PhotoViewActivity : AppCompatActivity() {
         val service: UnSplashRetrofitService = UnSplashRetrofit.getService()
         // Repository that will be used by the view model
         val repository = UnSplashRepository(service)
-        adapter = UnSplashPhotoAdapter(listOf(), this)
+        adapter = UnSplashPhotoAdapter(listOf())
         viewModel = ViewModelProvider(this, UnSplashViewModelFactory(repository)).get(UnSplashViewModel::class.java)
     }
 

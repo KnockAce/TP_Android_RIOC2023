@@ -23,7 +23,7 @@ class LikedPhotoViewActivity : AppCompatActivity() {
         // Repository that will be used by the view model
         val repository = UnSplashRepository(service)
         viewModel = UnSplashViewModel(repository)
-        adapter = UnSplashLikedPhotoAdapter(listOf(), this, viewModel)
+        adapter = UnSplashLikedPhotoAdapter(listOf(), viewModel)
     }
 
     override fun onStart() {

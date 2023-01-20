@@ -14,25 +14,24 @@ import com.example.tp_unsplash.DetailPhotoView
 import com.example.tp_unsplash.R
 import com.example.tp_unsplash.schemas.UnSplashPhoto
 
-class UnSplashPhotoAdapter(private var photos: List<UnSplashPhoto>, private var app_ctx: Context) : RecyclerView.Adapter<UnSplashPhotoAdapter.UnSplashPhotoViewHolder>() {
+class UnSplashPhotoAdapter(private var photos: List<UnSplashPhoto>) : RecyclerView.Adapter<UnSplashPhotoAdapter.UnSplashPhotoViewHolder>() {
 
-    class UnSplashPhotoViewHolder(itemView: View, _ctx: Context) : RecyclerView.ViewHolder(itemView) {
+    class UnSplashPhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val photo: ImageView = itemView.findViewById(R.id.photo_small)
-        private var ctx: Context = _ctx
         fun bind(unsplash_photo: UnSplashPhoto) {
             val uri : Uri = Uri.parse(unsplash_photo.urls.full)
             photo.load(uri)
 
             photo.setOnClickListener {
-                val intent = Intent(ctx, DetailPhotoView::class.java)
+                val intent = Intent(itemView.context, DetailPhotoView::class.java)
                 //intent.putExtra("photo", unsplash_photo)
                 intent.putExtra("photo_id", unsplash_photo.id)
                 intent.putExtra("photo_url", unsplash_photo.urls.full)
                 intent.putExtra("author_name", unsplash_photo.user.name)
-                intent.putExtra("description", unsplash_photo.description)
+                intent.putExtra("description", unsplash_photo.alt_description)
                 intent.putExtra("is_liked", unsplash_photo.liked_by_user)
 
-                ctx.startActivity(intent)
+                itemView.context.startActivity(intent)
             }
         }
 
@@ -40,7 +39,7 @@ class UnSplashPhotoAdapter(private var photos: List<UnSplashPhoto>, private var 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UnSplashPhotoViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.photo_view, parent, false)
-        return UnSplashPhotoViewHolder(itemView, app_ctx)
+        return UnSplashPhotoViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: UnSplashPhotoViewHolder, position: Int) {
