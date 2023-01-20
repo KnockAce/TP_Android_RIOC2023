@@ -10,11 +10,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UnSplashRetrofitService {
-    @POST("/oauth/token")
-    suspend fun getToken(
-        @Body body: UserAuthBody
-    )
-
 
     @GET("/photos/random?count=10")
     suspend fun getData(

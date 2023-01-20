@@ -8,14 +8,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object UnSplashRetrofit {
     private const val BASE_URL = "https://api.unsplash.com"
-    private const val TOKEN = "Client-ID liyybH-ytr_pvDVLhIgpjwHGIlPhJvoZ_oMWfopP3-A"
+    private const val CLIENT_ID = "Client-ID liyybH-ytr_pvDVLhIgpjwHGIlPhJvoZ_oMWfopP3-A"
+    private const val BEARER_TOEN = "_QqDzKwSFjA88tWvN7J8M5QYcz8h6zeXQDkYnSy6nQk"
     fun getService(): UnSplashRetrofitService {
         val retrofitBuilder = Retrofit.Builder()
 
         // We need to add the authentication token to the header of each request
         val client = OkHttpClient.Builder().addInterceptor(Interceptor { chain ->
             val newRequest: Request = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer $TOKEN")
+                .addHeader("Authorization", "Bearer $BEARER_TOEN")
                 .build()
             chain.proceed(newRequest)
         }).build()

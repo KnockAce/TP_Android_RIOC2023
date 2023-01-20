@@ -17,8 +17,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        // Random photo
         binding.btnWelcome.setOnClickListener {
             val intent = Intent(this, PhotoViewActivity::class.java)
+            startActivity(intent)
+        }
+        // Search photo
+        binding.btnGoLikedPhotos.setOnClickListener {
+            val intent = Intent(this, LikedPhotoViewActivity::class.java)
             startActivity(intent)
         }
     }

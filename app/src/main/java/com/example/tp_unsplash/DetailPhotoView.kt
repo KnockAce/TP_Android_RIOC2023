@@ -10,6 +10,7 @@ import com.example.tp_unsplash.api.UnSplashRetrofitService
 import com.example.tp_unsplash.databinding.ActivityDetailPhotoViewBinding
 import com.example.tp_unsplash.repository.UnSplashRepository
 import com.example.tp_unsplash.viewmodels.UnSplashViewModel
+import android.util.Log
 
 class DetailPhotoView : AppCompatActivity() {
     private lateinit var binding: ActivityDetailPhotoViewBinding
@@ -33,11 +34,10 @@ class DetailPhotoView : AppCompatActivity() {
         val photo_uri : Uri = Uri.parse(intent.getStringExtra("photo_url"))
         binding.photoSmall.load(photo_uri)
         val author_name  = intent.getStringExtra("author_name")
-        binding.txtAuthorName.text = author_name
-        val is_liked = intent.getBooleanExtra("is_liked", false)
+        "Author: $author_name".also { binding.txtAuthorName.text = it }
+        var is_liked = intent.getBooleanExtra("is_liked", false)
         val description = intent.getStringExtra("description")
-        println(description)
-        binding.txtDescription.text = description
+        "Description : $description".also { binding.txtDescription.text = it }
         if(is_liked) {
             // If arleady like we want to un-like it
             binding.btnLike.setBackgroundResource(R.drawable.btn_unlike_style)
@@ -52,13 +52,19 @@ class DetailPhotoView : AppCompatActivity() {
             val photoId = intent.getStringExtra("photo_id")
             println("Like button clicked we will update the photo with id: $photoId")
             if(is_liked) {
+                Log.d("Like button", "We will unlike the photo")
                 // If arleady like we want to un-like it
                 binding.btnLike.setBackgroundResource(R.drawable.btn_unlike_style)
                 viewModel.unlikePhoto(photoId!!)
+                is_liked = false
+                Log.i("Like button", "We unliked the photo successfully")
             } else {
+                Log.d("Like button", "We will like the photo")
                 // If not like we want to like it
                 binding.btnLike.setBackgroundResource(R.drawable.btn_like_style)
                 viewModel.likePhoto(photoId!!)
+                is_liked = true
+                Log.i("Like button", "We liked the photo successfully")
             }
         }
     }

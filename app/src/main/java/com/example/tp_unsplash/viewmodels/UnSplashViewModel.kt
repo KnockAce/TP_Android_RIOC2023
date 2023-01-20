@@ -17,6 +17,12 @@ class UnSplashViewModel(private val repository: UnSplashRepository) : ViewModel(
         }
     }
 
+    fun fetchLikedPhotos(username: String) {
+        viewModelScope.launch {
+            _liked_photos.value = repository.get_liked_photos(username)
+        }
+    }
+
     fun getAllPhotos(): LiveData<List<UnSplashPhoto>> {
         return photos
     }
@@ -33,11 +39,6 @@ class UnSplashViewModel(private val repository: UnSplashRepository) : ViewModel(
         }
     }
 
-    fun getLikedPhotos(username: String) {
-        viewModelScope.launch {
-            _liked_photos.value = repository.get_liked_photos(username)
-        }
-    }
 }
 
 class UnSplashViewModelFactory(private val repository: UnSplashRepository) : ViewModelProvider.Factory {
