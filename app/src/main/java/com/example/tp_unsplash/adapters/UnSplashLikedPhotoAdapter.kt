@@ -19,18 +19,20 @@ import com.example.tp_unsplash.viewmodels.UnSplashViewModel
 class UnSplashLikedPhotoAdapter(private var photos: List<UnSplashPhoto>,
                                 private var viewModel: UnSplashViewModel
                                 ) : RecyclerView.Adapter<UnSplashLikedPhotoAdapter.UnSplashLikedPhotoViewHolder>() {
-
-    class UnSplashLikedPhotoViewHolder(itemView: View, private val _viewModel: UnSplashViewModel) : RecyclerView.ViewHolder(itemView) {
+    inner class UnSplashLikedPhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val photo: ImageView = itemView.findViewById(R.id.photo_small)
         val btn: ImageButton = itemView.findViewById(R.id.btn_unlike)
 
 
         fun bind(unsplash_photo: UnSplashPhoto) {
+
             val uri : Uri = Uri.parse(unsplash_photo.urls.full)
             photo.load(uri)
             btn.setOnClickListener {
                 // unlike photo
-                _viewModel.unlikePhoto(unsplash_photo.id)
+                viewModel.unlikePhoto(unsplash_photo.id)
+                photos = photos.filter { it.id != unsplash_photo.id }
+                notifyItemRemoved(adapterPosition)
             }
             photo.setOnClickListener {
                 val intent = Intent(itemView.context, DetailPhotoView::class.java)
@@ -47,9 +49,18 @@ class UnSplashLikedPhotoAdapter(private var photos: List<UnSplashPhoto>,
 
     }
 
+    fun removeItem(position: Int) {
+        photos = photos.toMutableList().apply {
+            removeAt(position)
+        }
+        // notifyItemRemoved(position)
+
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UnSplashLikedPhotoViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.photo_liked_view, parent, false)
-        return UnSplashLikedPhotoViewHolder(itemView, viewModel)
+
+        return UnSplashLikedPhotoViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: UnSplashLikedPhotoViewHolder, position: Int) {

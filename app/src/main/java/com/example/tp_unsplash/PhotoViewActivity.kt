@@ -31,15 +31,12 @@ class PhotoViewActivity : AppCompatActivity() {
         val repository = UnSplashRepository(service)
         adapter = UnSplashPhotoAdapter(listOf())
         viewModel = ViewModelProvider(this, UnSplashViewModelFactory(repository)).get(UnSplashViewModel::class.java)
-    }
-
-    override fun onStart() {
-        super.onStart()
         binding.PhotoViews.adapter = adapter
         addObservers()
 
         viewModel.fetchPhotos()
     }
+
 
     private fun addObservers(){
         viewModel.photos.observe(this) {
