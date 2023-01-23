@@ -1,8 +1,6 @@
 package com.example.tp_unsplash.api
 
 import com.example.tp_unsplash.schemas.UnSplashPhoto
-import com.example.tp_unsplash.schemas.UserAuthBody
-import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST

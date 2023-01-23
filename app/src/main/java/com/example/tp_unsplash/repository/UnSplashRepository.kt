@@ -23,7 +23,7 @@ class UnSplashRepository(private val service: UnSplashRetrofitService,
         val photo = service.getPhoto(photoId)
         val description = photo.alt_description ?: "No description"
         val likedPhoto = LikedPhotos(0,
-            true,photo.likes,photo.urls.small,description,photoId)
+            true,photo.likes,photo.urls.full,description,photoId)
         dao.insert(likedPhoto)
     }
 

@@ -42,7 +42,6 @@ class LikedPhotoViewActivity : AppCompatActivity() {
     private fun addObservers(){
         viewModel.liked_photos.observe(this) {
             adapter.setData(it)
-            println("Liked photos: $it")
         }
     }
 }
