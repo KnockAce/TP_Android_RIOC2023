@@ -1,13 +1,11 @@
 package com.example.tp_unsplash.adapters
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.tp_unsplash.DetailPhotoView
@@ -24,12 +22,7 @@ class UnSplashPhotoAdapter(private var photos: List<UnSplashPhoto>) : RecyclerVi
 
             photo.setOnClickListener {
                 val intent = Intent(itemView.context, DetailPhotoView::class.java)
-                //intent.putExtra("photo", unsplash_photo)
-                intent.putExtra("photo_id", unsplash_photo.id)
-                intent.putExtra("photo_url", unsplash_photo.urls.full)
-                intent.putExtra("author_name", unsplash_photo.user.name)
-                intent.putExtra("description", unsplash_photo.alt_description)
-                intent.putExtra("is_liked", unsplash_photo.liked_by_user)
+                intent.putExtra("photo", unsplash_photo)
 
                 itemView.context.startActivity(intent)
             }

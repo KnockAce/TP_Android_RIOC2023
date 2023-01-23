@@ -26,7 +26,6 @@ class UnSplashLikedPhotoAdapter(private var photos: List<UnSplashPhoto>,
 
             val uri : Uri = Uri.parse(unsplash_photo.urls.full)
             photo.load(uri)
-            println("test " + unsplash_photo.id)
             btn.setOnClickListener {
                 // remove photo from list
                 val newList = photos.filter { it.id != unsplash_photo.id }
@@ -40,12 +39,8 @@ class UnSplashLikedPhotoAdapter(private var photos: List<UnSplashPhoto>,
             }
             photo.setOnClickListener {
                 val intent = Intent(itemView.context, DetailPhotoView::class.java)
-                //intent.putExtra("photo", unsplash_photo)
-                intent.putExtra("photo_id", unsplash_photo.id)
-                intent.putExtra("photo_url", unsplash_photo.urls.full)
-                intent.putExtra("author_name", unsplash_photo.user.name)
-                intent.putExtra("description", unsplash_photo.alt_description)
-                intent.putExtra("is_liked", unsplash_photo.liked_by_user)
+
+                intent.putExtra("photo", unsplash_photo)
 
                 itemView.context.startActivity(intent)
             }

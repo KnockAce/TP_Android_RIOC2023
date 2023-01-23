@@ -1,6 +1,8 @@
 package com.example.tp_unsplash.schemas
 
-data class UnSplashPhoto(
+import java.io.Serializable
+
+data class UnSplashPhoto (
     val id: String,
     val created_at: String,
     val updated_at: String,
@@ -20,4 +22,4 @@ data class UnSplashPhoto(
     val user: UnSplashUser,
     val views: Int,
     val downloads: Int
-)
+) : Serializable

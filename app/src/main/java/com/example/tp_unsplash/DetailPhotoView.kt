@@ -10,6 +10,7 @@ import com.example.tp_unsplash.api.UnSplashRetrofitService
 import com.example.tp_unsplash.databinding.ActivityDetailPhotoViewBinding
 import com.example.tp_unsplash.repository.UnSplashRepository
 import android.util.Log
+import com.example.tp_unsplash.schemas.UnSplashPhoto
 import com.example.tp_unsplash.viewmodels.LikedPhotosViewModel
 
 class DetailPhotoView : AppCompatActivity() {
@@ -35,40 +36,41 @@ class DetailPhotoView : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         // Set data from intent to the view
-        val photo_uri : Uri = Uri.parse(intent.getStringExtra("photo_url"))
+        val photo = intent.getSerializableExtra("photo") as UnSplashPhoto
+        // Load image with coil
+        val photo_uri : Uri = Uri.parse(photo.urls.full)
         binding.photoSmall.load(photo_uri)
-        val author_name  = intent.getStringExtra("author_name")
-        "Author: $author_name".also { binding.txtAuthorName.text = it }
-        var is_liked = intent.getBooleanExtra("is_liked", false)
-        val description = intent.getStringExtra("description")
-        "Description : $description".also { binding.txtDescription.text = it }
-        // Apply style to btn
-        if(is_liked) {
+        "Author: ${photo.user.name}".also { binding.txtAuthorName.text = it }
+        var isLiked = photo.liked_by_user
+        "Description : ${photo.alt_description}".also { binding.txtDescription.text = it }
+
+        // Apply style to like btn
+        if(isLiked) {
             // If arleady like we want to un-like it
             binding.btnLike.setBackgroundResource(R.drawable.btn_unlike_style)
-
         } else {
             // If not like we want to like it
             binding.btnLike.setBackgroundResource(R.drawable.btn_like_style)
         }
+
         // Set the listener for the like button
         binding.btnLike.setOnClickListener {
-            val photoId = intent.getStringExtra("photo_id")
+            val photoId = photo.id
             println("Like button clicked we will update the photo with id: $photoId")
-            if(is_liked) {
+            if(isLiked) {
                 Log.d("Like button", "We will unlike the photo")
                 // If arleady like we want to un-like it
                 binding.btnLike.setBackgroundResource(R.drawable.btn_unlike_style)
-                viewModel.unlikePhoto(photoId!!)
-                is_liked = false
+                viewModel.unlikePhoto(photoId)
+                isLiked = false
                 Log.i("Like button", "We unliked the photo successfully")
                 Toast.makeText(this, "We unliked the photo successfully", Toast.LENGTH_SHORT).show()
             } else {
                 Log.d("Like button", "We will like the photo")
                 // If not like we want to like it
                 binding.btnLike.setBackgroundResource(R.drawable.btn_like_style)
-                viewModel.likePhoto(photoId!!)
-                is_liked = true
+                viewModel.likePhoto(photoId)
+                isLiked = true
                 Log.i("Like button", "We liked the photo successfully")
                 Toast.makeText(this, "We liked the photo successfully", Toast.LENGTH_SHORT).show()
 
