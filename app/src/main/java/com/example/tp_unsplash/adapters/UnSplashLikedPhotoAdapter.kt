@@ -1,6 +1,5 @@
 package com.example.tp_unsplash.adapters
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -12,10 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.tp_unsplash.DetailPhotoView
 import com.example.tp_unsplash.R
-import com.example.tp_unsplash.repository.UnSplashRepository
 import com.example.tp_unsplash.schemas.UnSplashPhoto
 import com.example.tp_unsplash.viewmodels.LikedPhotosViewModel
-import com.example.tp_unsplash.viewmodels.UnSplashViewModel
 
 class UnSplashLikedPhotoAdapter(private var photos: List<UnSplashPhoto>,
                                 private var viewModel: LikedPhotosViewModel
@@ -29,9 +26,14 @@ class UnSplashLikedPhotoAdapter(private var photos: List<UnSplashPhoto>,
 
             val uri : Uri = Uri.parse(unsplash_photo.urls.full)
             photo.load(uri)
+            println("test " + unsplash_photo.id)
             btn.setOnClickListener {
-                photos = photos.filter { it.id != unsplash_photo.id }
-                notifyItemRemoved(adapterPosition)
+                // remove photo from list
+                val newList = photos.filter { it.id != unsplash_photo.id }
+                photos = listOf()
+                notifyDataSetChanged()
+                photos = newList
+                notifyDataSetChanged()
 
                 // unlike photo
                 viewModel.unlikePhoto(unsplash_photo.id)
@@ -67,7 +69,7 @@ class UnSplashLikedPhotoAdapter(private var photos: List<UnSplashPhoto>,
     fun setData(photos: List<UnSplashPhoto>?) {
         if (photos != null) {
             this.photos = photos
+            notifyDataSetChanged()
         }
-        notifyDataSetChanged()
     }
 }

@@ -30,4 +30,9 @@ interface UnSplashRetrofitService {
     suspend fun getLikedPhotos(
         @Path("username") username: String
     ): List<UnSplashPhoto>
+
+    @GET("/photos/{id}")
+    suspend fun getPhoto(
+        @Path("id") id: String
+    ): UnSplashPhoto
 }

@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.tp_unsplash.dao.LikedPhotoDao
 import com.example.tp_unsplash.models.LikedPhotos
-import com.example.tp_unsplash.schemas.UnSplashPhoto
+
 
 @Database(
     entities = [LikedPhotos::class],
@@ -27,12 +29,22 @@ abstract class UnSplashRoomDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     UnSplashRoomDatabase::class.java,
-                    "UnSplashDatabase"
-                ).build()
+                    "UnSplashDatabase")
+                //    .addMigrations(MIGRATION_1_2)
+                    .build()
                 INSTANCE = instance
                 // return instance
                 instance
             }
         }
+    }
+}
+
+val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            "ALTER TABLE liked_photos "
+                    + "ADD COLUMN photo_id TEXT NOT NULL DEFAULT 'default_id'"
+        )
     }
 }

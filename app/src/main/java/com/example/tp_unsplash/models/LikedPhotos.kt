@@ -19,7 +19,8 @@ data class LikedPhotos(
     val path: String,
 
     @ColumnInfo(name = "description", defaultValue = "No description")
-    val description: String
+    val description: String,
 
-
+    @ColumnInfo(name = "photo_id", defaultValue = "default_id")
+    val photoId: String
 )

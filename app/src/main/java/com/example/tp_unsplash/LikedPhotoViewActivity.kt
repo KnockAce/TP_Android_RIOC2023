@@ -9,12 +9,11 @@ import com.example.tp_unsplash.databinding.ActivityLikedPhotoViewBinding
 import com.example.tp_unsplash.repository.UnSplashRepository
 import com.example.tp_unsplash.viewmodels.LikedPhotosViewModel
 import com.example.tp_unsplash.viewmodels.UnSplashViewModel
-
+private const val USERNAME = "knockace"
 class LikedPhotoViewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLikedPhotoViewBinding
     private lateinit var viewModel: LikedPhotosViewModel
     private lateinit var adapter: UnSplashLikedPhotoAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLikedPhotoViewBinding.inflate(layoutInflater)
@@ -29,6 +28,7 @@ class LikedPhotoViewActivity : AppCompatActivity() {
         val repository = UnSplashRepository(service, dao)
         viewModel = LikedPhotosViewModel(repository)
         adapter = UnSplashLikedPhotoAdapter(listOf(), viewModel)
+        viewModel.initLikedPhotos(USERNAME)
     }
 
     override fun onStart() {
@@ -42,6 +42,7 @@ class LikedPhotoViewActivity : AppCompatActivity() {
     private fun addObservers(){
         viewModel.liked_photos.observe(this) {
             adapter.setData(it)
+            println("Liked photos: $it")
         }
     }
 }

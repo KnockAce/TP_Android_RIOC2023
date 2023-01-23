@@ -15,59 +15,41 @@ class UnSplashRepository(private val service: UnSplashRetrofitService,
     }
 
     suspend fun like_photo(id: String) : UnSplashPhoto {
-        if(dao.getLikedPhoto(id) == null) {
-            val photo = service.likePhoto(id)
-            val test = LikedPhotos(0,
-            true,45,"test.png","edededed")
-            dao.insert(test)
-            return photo
-        }
         return service.likePhoto(id)
     }
 
+    suspend fun addPhotoToDb(photoId:  String) {
+        // TODO: Avoid to make a request to get the photo
+        val photo = service.getPhoto(photoId)
+        val description = photo.alt_description ?: "No description"
+        val likedPhoto = LikedPhotos(0,
+            true,photo.likes,photo.urls.small,description,photoId)
+        dao.insert(likedPhoto)
+    }
+
     suspend fun unlike_photo(id: String) : UnSplashPhoto {
-        if(dao.getLikedPhoto(id) != null) {
-            val photo = service.unlikePhoto(id)
-            //dao.delete(photo)
-            return photo
-        }
         return service.unlikePhoto(id)
     }
 
-    suspend fun get_liked_photos(username: String) : List<UnSplashPhoto> {
-        val liked_photos = dao.getAllLikedPhotos()
-        return if(liked_photos.isEmpty())
-            service.getLikedPhotos(username)
-        else
-           return daoToUnSplashPhoto(liked_photos)
+    suspend fun deletePhotoFromDb(photoId: String) : Boolean {
+        dao.delete(photoId)
+        return true
     }
 
-    private fun daoToUnSplashPhoto(likedPhotos: List<LikedPhotos>) : List<UnSplashPhoto> {
-        val photos = mutableListOf<UnSplashPhoto>()
-        for (temp in likedPhotos) {
-            photos.add(UnSplashPhoto(
-                "",
-                "",
-                "",
-                "",
-                0,
-                0,
-                "",
-                "",
-                temp.description,
-                temp.description,
-                Urls(temp.path, temp.path, temp.path, temp.path, temp.path),
-                Links(temp.path, temp.path, temp.path, temp.path),
-                listOf(),
-                temp.likes,
-                true,
-                listOf(),
-                UnSplashUser(
-                ),
-                0,
-                0
-            ))
-        }
-        return photos
+     suspend fun isInDb(photoId: String) : Boolean {
+        return dao.isInDb(photoId)
+    }
+
+    suspend fun getDbLikedPhotos() : List<LikedPhotos> {
+        return dao.getAllLikedPhotos()
+    }
+
+    suspend fun getLikedPhotos(username: String) : List<UnSplashPhoto> {
+        return service.getLikedPhotos(username)
+    }
+
+    suspend fun getCount() : Int {
+
+        return dao.getCount()
     }
 }

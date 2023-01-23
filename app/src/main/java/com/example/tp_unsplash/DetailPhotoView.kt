@@ -9,7 +9,6 @@ import com.example.tp_unsplash.api.UnSplashRetrofit
 import com.example.tp_unsplash.api.UnSplashRetrofitService
 import com.example.tp_unsplash.databinding.ActivityDetailPhotoViewBinding
 import com.example.tp_unsplash.repository.UnSplashRepository
-import com.example.tp_unsplash.viewmodels.UnSplashViewModel
 import android.util.Log
 import com.example.tp_unsplash.viewmodels.LikedPhotosViewModel
 
@@ -43,6 +42,7 @@ class DetailPhotoView : AppCompatActivity() {
         var is_liked = intent.getBooleanExtra("is_liked", false)
         val description = intent.getStringExtra("description")
         "Description : $description".also { binding.txtDescription.text = it }
+        // Apply style to btn
         if(is_liked) {
             // If arleady like we want to un-like it
             binding.btnLike.setBackgroundResource(R.drawable.btn_unlike_style)
@@ -53,7 +53,6 @@ class DetailPhotoView : AppCompatActivity() {
         }
         // Set the listener for the like button
         binding.btnLike.setOnClickListener {
-            //Toast(this, "Like button clicked", Toast.LENGTH_SHORT).show()
             val photoId = intent.getStringExtra("photo_id")
             println("Like button clicked we will update the photo with id: $photoId")
             if(is_liked) {
@@ -63,6 +62,7 @@ class DetailPhotoView : AppCompatActivity() {
                 viewModel.unlikePhoto(photoId!!)
                 is_liked = false
                 Log.i("Like button", "We unliked the photo successfully")
+                Toast.makeText(this, "We unliked the photo successfully", Toast.LENGTH_SHORT).show()
             } else {
                 Log.d("Like button", "We will like the photo")
                 // If not like we want to like it
@@ -70,6 +70,8 @@ class DetailPhotoView : AppCompatActivity() {
                 viewModel.likePhoto(photoId!!)
                 is_liked = true
                 Log.i("Like button", "We liked the photo successfully")
+                Toast.makeText(this, "We liked the photo successfully", Toast.LENGTH_SHORT).show()
+
             }
         }
     }

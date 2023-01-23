@@ -12,12 +12,18 @@ interface LikedPhotoDao {
     @Query("SELECT * FROM liked_photos")
     suspend fun getAllLikedPhotos() : List<LikedPhotos>
 
-    @Delete
-    suspend fun delete(LikedPhotos: LikedPhotos)
+    @Query("DELETE FROM liked_photos WHERE photo_id = :id")
+    suspend fun delete(id: String)
 
     @Query("DELETE FROM liked_photos")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM liked_photos WHERE id = :id")
+    @Query("SELECT * FROM liked_photos WHERE photo_id = :id")
     suspend fun getLikedPhoto(id: String) : LikedPhotos
+
+    @Query("SELECT EXISTS(SELECT * FROM liked_photos WHERE photo_id = :id)")
+    suspend fun isInDb(id: String) : Boolean
+
+    @Query("SELECT COUNT(*) FROM liked_photos")
+    suspend fun getCount() : Int
 }
