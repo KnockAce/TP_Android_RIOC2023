@@ -3,8 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.tp_unsplash.PhotoViewActivity">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/action_home"
+        android:title="@string/title_home"
+        android:icon="@drawable/baseline_home_24"
+        />
+    <item
+        android:id="@+id/action_random_photos"
+        android:title="@string/title_random_photos"
+        android:icon="@drawable/baseline_add_photo_alternate_24"
+         />
+    <item
+        android:id="@+id/action_liked_photos"
+        android:title="@string/title_liked_photos"
+        android:icon="@drawable/baseline_favorite_24"
+         />
 </menu>

@@ -1,5 +1,6 @@
 package com.example.tp_unsplash
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -13,6 +14,7 @@ import com.example.tp_unsplash.viewmodels.UnSplashViewModel
 import com.example.tp_unsplash.viewmodels.UnSplashViewModelFactory
 import com.example.tp_unsplash.api.UnSplashRetrofit
 import com.example.tp_unsplash.repository.UnSplashRepository
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class PhotoViewActivity : AppCompatActivity() {
 
@@ -39,12 +41,38 @@ class PhotoViewActivity : AppCompatActivity() {
         addObservers()
 
         viewModel.fetchPhotos()
-    }
 
+        val nav : BottomNavigationView = binding.navMenu.navView
+        setUpMenu(nav)
+    }
 
     private fun addObservers(){
         viewModel.photos.observe(this) {
             adapter.setData(it)
+        }
+    }
+
+    fun setUpMenu(navMenu: BottomNavigationView){
+        // Set selected item
+        navMenu.selectedItemId = R.id.action_random_photos;
+        // Switch between activities
+        navMenu.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.action_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    true
+                }
+                R.id.action_liked_photos -> {
+                    startActivity(Intent(this, LikedPhotoViewActivity::class.java))
+                    true
+                }
+                R.id.action_random_photos -> {
+                    println("random")
+                    startActivity(Intent(this, PhotoViewActivity::class.java))
+                    true
+                }
+                else -> false
+            }
         }
     }
 }
