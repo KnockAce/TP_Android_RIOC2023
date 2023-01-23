@@ -25,10 +25,14 @@ class PhotoViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPhotoViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // database
+        val database = UnSplashRoomDatabase.getDatabase(this)
+        // Dao for database
+        val dao = database.getLikedPhotoDao()
         // Service for api calls
         val service: UnSplashRetrofitService = UnSplashRetrofit.getService()
         // Repository that will be used by the view model
-        val repository = UnSplashRepository(service)
+        val repository = UnSplashRepository(service, dao)
         adapter = UnSplashPhotoAdapter(listOf())
         viewModel = ViewModelProvider(this, UnSplashViewModelFactory(repository)).get(UnSplashViewModel::class.java)
         binding.PhotoViews.adapter = adapter

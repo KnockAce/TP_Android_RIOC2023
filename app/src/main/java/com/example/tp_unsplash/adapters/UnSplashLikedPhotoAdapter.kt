@@ -14,10 +14,11 @@ import com.example.tp_unsplash.DetailPhotoView
 import com.example.tp_unsplash.R
 import com.example.tp_unsplash.repository.UnSplashRepository
 import com.example.tp_unsplash.schemas.UnSplashPhoto
+import com.example.tp_unsplash.viewmodels.LikedPhotosViewModel
 import com.example.tp_unsplash.viewmodels.UnSplashViewModel
 
 class UnSplashLikedPhotoAdapter(private var photos: List<UnSplashPhoto>,
-                                private var viewModel: UnSplashViewModel
+                                private var viewModel: LikedPhotosViewModel
                                 ) : RecyclerView.Adapter<UnSplashLikedPhotoAdapter.UnSplashLikedPhotoViewHolder>() {
     inner class UnSplashLikedPhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val photo: ImageView = itemView.findViewById(R.id.photo_small)
@@ -29,10 +30,11 @@ class UnSplashLikedPhotoAdapter(private var photos: List<UnSplashPhoto>,
             val uri : Uri = Uri.parse(unsplash_photo.urls.full)
             photo.load(uri)
             btn.setOnClickListener {
-                // unlike photo
-                viewModel.unlikePhoto(unsplash_photo.id)
                 photos = photos.filter { it.id != unsplash_photo.id }
                 notifyItemRemoved(adapterPosition)
+
+                // unlike photo
+                viewModel.unlikePhoto(unsplash_photo.id)
             }
             photo.setOnClickListener {
                 val intent = Intent(itemView.context, DetailPhotoView::class.java)
@@ -46,14 +48,6 @@ class UnSplashLikedPhotoAdapter(private var photos: List<UnSplashPhoto>,
                 itemView.context.startActivity(intent)
             }
         }
-
-    }
-
-    fun removeItem(position: Int) {
-        photos = photos.toMutableList().apply {
-            removeAt(position)
-        }
-        // notifyItemRemoved(position)
 
     }
 

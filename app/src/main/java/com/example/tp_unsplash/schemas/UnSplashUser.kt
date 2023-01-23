@@ -17,4 +17,6 @@ data class UnSplashUser(
     val total_likes: Int,
     val total_photos: Int,
     val accepted_tos: Boolean
-)
+){
+    constructor() : this("", "", "", "", "", "", "", "", "", "", Links( "", "", "", ""), "", 0, 0, 0, false)
+}

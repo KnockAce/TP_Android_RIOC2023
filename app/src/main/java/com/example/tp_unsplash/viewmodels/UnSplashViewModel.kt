@@ -8,8 +8,6 @@ import kotlinx.coroutines.launch
 class UnSplashViewModel(private val repository: UnSplashRepository) : ViewModel() {
     private var _photos: MutableLiveData<List<UnSplashPhoto>> = MutableLiveData()
     var photos: LiveData<List<UnSplashPhoto>> = _photos
-    private var _liked_photos: MutableLiveData<List<UnSplashPhoto>> = MutableLiveData()
-    var liked_photos: LiveData<List<UnSplashPhoto>> = _liked_photos
 
     fun fetchPhotos() {
         viewModelScope.launch {
@@ -17,28 +15,9 @@ class UnSplashViewModel(private val repository: UnSplashRepository) : ViewModel(
         }
     }
 
-    fun fetchLikedPhotos(username: String) {
-        viewModelScope.launch {
-            _liked_photos.value = repository.get_liked_photos(username)
-        }
-    }
-
     fun getAllPhotos(): LiveData<List<UnSplashPhoto>> {
         return photos
     }
-
-    fun likePhoto(id: String) {
-        viewModelScope.launch {
-            repository.like_photo(id)
-        }
-    }
-
-    fun unlikePhoto(id: String) {
-        viewModelScope.launch {
-            repository.unlike_photo(id)
-        }
-    }
-
 }
 
 class UnSplashViewModelFactory(private val repository: UnSplashRepository) : ViewModelProvider.Factory {
