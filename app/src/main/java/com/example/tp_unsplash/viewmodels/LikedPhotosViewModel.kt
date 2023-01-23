@@ -41,9 +41,10 @@ class LikedPhotosViewModel(private val repository: UnSplashRepository) : ViewMod
         viewModelScope.launch {
             Log.d("LikedPhotosViewModel", "We want to unlike $id")
             // Add to local cache
-            if(repository.isInDb(id))
+            if(repository.isInDb(id)){
                 Log.i("LikedPhotosViewModel", "Deleting $id from the DB")
                 repository.deletePhotoFromDb(id)
+            }
             Log.i("LikedPhotosViewModel", "Unliking $id")
             repository.unlike_photo(id) // API call
         }
@@ -99,7 +100,7 @@ class LikedPhotosViewModelFactory(private val repository: UnSplashRepository) : 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(LikedPhotosViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return UnSplashViewModel(repository) as T
+            return LikedPhotosViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

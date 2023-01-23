@@ -2,9 +2,6 @@ package com.example.tp_unsplash
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.tp_unsplash.adapters.UnSplashPhotoAdapter
@@ -36,7 +33,7 @@ class PhotoViewActivity : AppCompatActivity() {
         // Repository that will be used by the view model
         val repository = UnSplashRepository(service, dao)
         adapter = UnSplashPhotoAdapter(listOf())
-        viewModel = ViewModelProvider(this, UnSplashViewModelFactory(repository)).get(UnSplashViewModel::class.java)
+        viewModel = ViewModelProvider(this, UnSplashViewModelFactory(repository))[UnSplashViewModel::class.java]
         binding.PhotoViews.adapter = adapter
         addObservers()
 
@@ -54,7 +51,7 @@ class PhotoViewActivity : AppCompatActivity() {
 
     fun setUpMenu(navMenu: BottomNavigationView){
         // Set selected item
-        navMenu.selectedItemId = R.id.action_random_photos;
+        navMenu.selectedItemId = R.id.action_random_photos
         // Switch between activities
         navMenu.setOnItemSelectedListener {
             when (it.itemId) {

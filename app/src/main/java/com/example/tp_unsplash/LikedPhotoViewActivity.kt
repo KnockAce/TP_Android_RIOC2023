@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import com.example.tp_unsplash.adapters.UnSplashLikedPhotoAdapter
@@ -12,6 +13,7 @@ import com.example.tp_unsplash.api.UnSplashRetrofitService
 import com.example.tp_unsplash.databinding.ActivityLikedPhotoViewBinding
 import com.example.tp_unsplash.repository.UnSplashRepository
 import com.example.tp_unsplash.viewmodels.LikedPhotosViewModel
+import com.example.tp_unsplash.viewmodels.LikedPhotosViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -32,7 +34,7 @@ class LikedPhotoViewActivity : AppCompatActivity() {
         val dao = database.getLikedPhotoDao()
         // Repository that will be used by the view model
         val repository = UnSplashRepository(service, dao)
-        viewModel = LikedPhotosViewModel(repository)
+        viewModel = ViewModelProvider(this, LikedPhotosViewModelFactory(repository))[LikedPhotosViewModel::class.java]
         adapter = UnSplashLikedPhotoAdapter(listOf(), viewModel)
         viewModel.initLikedPhotos(USERNAME)
     }
@@ -43,8 +45,7 @@ class LikedPhotoViewActivity : AppCompatActivity() {
         val snapHelper: SnapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.recyclerView)
         addObservers()
-        // valeur en dur pour le moment <- TODO
-        viewModel.fetchLikedPhotos("knockace")
+        viewModel.fetchLikedPhotos(USERNAME)
         val nav : BottomNavigationView = binding.navMenu.navView
         setUpMenu(nav)
     }
@@ -55,9 +56,9 @@ class LikedPhotoViewActivity : AppCompatActivity() {
         }
     }
 
-    fun setUpMenu(navMenu: BottomNavigationView){
+    private fun setUpMenu(navMenu: BottomNavigationView){
         // Set selected item
-        navMenu.selectedItemId = R.id.action_liked_photos;
+        navMenu.selectedItemId = R.id.action_liked_photos
         // Switch between activities
         navMenu.setOnItemSelectedListener {
             when (it.itemId) {
@@ -81,10 +82,5 @@ class LikedPhotoViewActivity : AppCompatActivity() {
                 else -> false
             }
         }
-    }
-
-    fun test(){
-        println("test")
-
     }
 }

@@ -1,6 +1,5 @@
 package com.example.tp_unsplash
 
-import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,9 +10,10 @@ import com.example.tp_unsplash.api.UnSplashRetrofitService
 import com.example.tp_unsplash.databinding.ActivityDetailPhotoViewBinding
 import com.example.tp_unsplash.repository.UnSplashRepository
 import android.util.Log
+import androidx.lifecycle.ViewModelProvider
 import com.example.tp_unsplash.schemas.UnSplashPhoto
 import com.example.tp_unsplash.viewmodels.LikedPhotosViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.tp_unsplash.viewmodels.LikedPhotosViewModelFactory
 
 class DetailPhotoView : AppCompatActivity() {
     private lateinit var binding: ActivityDetailPhotoViewBinding
@@ -31,7 +31,7 @@ class DetailPhotoView : AppCompatActivity() {
         val service: UnSplashRetrofitService = UnSplashRetrofit.getService()
         // Repository that will be used by the view model
         val repository = UnSplashRepository(service, dao)
-        viewModel = LikedPhotosViewModel(repository)
+        viewModel = ViewModelProvider(this, LikedPhotosViewModelFactory(repository))[LikedPhotosViewModel::class.java]
     }
 
     override fun onStart() {
