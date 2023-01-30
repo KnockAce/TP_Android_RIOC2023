@@ -61,6 +61,10 @@ class LikedPhotosViewModel(private val repository: UnSplashRepository) : ViewMod
                 if (!repository.isInDb(photo.id)) {
                     Log.i("LikedPhotosViewModel", "Adding ${photo.id} to the DB")
                     repository.addPhotoToDb(photo.id)
+                }else{
+                    Log.i("LikedPhotosViewModel", "${photo.id} is already in the DB")
+                    Log.d("LikedPhotosViewModel", "Updating likes for ${photo.id}")
+                    repository.updateLikes(photo.id, photo.likes)
                 }
             }
         }

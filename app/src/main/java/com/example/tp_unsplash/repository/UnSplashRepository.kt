@@ -52,4 +52,8 @@ class UnSplashRepository(private val service: UnSplashRetrofitService,
     suspend fun searchPhotos(search: String, page: Int = 1, per_page: Int = 10) : List<UnSplashPhoto>{
         return service.searchPhotos(search, page, per_page).results
     }
+
+    suspend fun updateLikes(photoId: String, likes: Int) {
+        dao.updateLikes(photoId, likes)
+    }
 }

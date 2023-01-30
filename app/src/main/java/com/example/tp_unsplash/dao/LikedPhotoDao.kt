@@ -2,7 +2,6 @@ package com.example.tp_unsplash.dao
 
 import androidx.room.*
 import com.example.tp_unsplash.models.LikedPhotos
-import com.example.tp_unsplash.schemas.UnSplashPhoto
 
 @Dao
 interface LikedPhotoDao {
@@ -26,4 +25,7 @@ interface LikedPhotoDao {
 
     @Query("SELECT COUNT(*) FROM liked_photos")
     suspend fun getCount() : Int
+
+    @Query("UPDATE liked_photos SET likes = :nb_likes WHERE photo_id = :id")
+    suspend fun updateLikes(id: String, nb_likes: Int)
 }
