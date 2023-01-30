@@ -1,8 +1,8 @@
 package com.example.tp_unsplash.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
+import java.util.Date
+import java.time.OffsetDateTime
 
 @Entity(tableName = "liked_photos")
 data class LikedPhotos(
@@ -22,5 +22,9 @@ data class LikedPhotos(
     val description: String,
 
     @ColumnInfo(name = "photo_id", defaultValue = "default_id")
-    val photoId: String
+    val photoId: String,
+
+//    @ColumnInfo(name = "updated_at")
+//    @TypeConverters(DateTimeConverter::class)
+//    val timestamp: Date? = null
 )

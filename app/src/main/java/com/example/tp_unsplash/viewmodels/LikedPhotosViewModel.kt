@@ -28,12 +28,12 @@ class LikedPhotosViewModel(private val repository: UnSplashRepository) : ViewMod
         }
     }
 
-    fun likePhoto(id: String) {
+    fun likePhoto(photo: UnSplashPhoto) {
         viewModelScope.launch {
             // Add to local cache
-            if(!repository.isInDb(id))
-                repository.addPhotoToDb(id)
-            repository.like_photo(id) // API call
+            if(!repository.isInDb(photo.id))
+                repository.addPhotoToDb(photo)
+            repository.like_photo(photo.id) // API call
         }
     }
 
@@ -60,7 +60,7 @@ class LikedPhotosViewModel(private val repository: UnSplashRepository) : ViewMod
             for (photo in apiPhotos) {
                 if (!repository.isInDb(photo.id)) {
                     Log.i("LikedPhotosViewModel", "Adding ${photo.id} to the DB")
-                    repository.addPhotoToDb(photo.id)
+                    repository.addPhotoToDb(photo)
                 }else{
                     Log.i("LikedPhotosViewModel", "${photo.id} is already in the DB")
                     Log.d("LikedPhotosViewModel", "Updating likes for ${photo.id}")

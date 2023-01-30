@@ -3,17 +3,35 @@ package com.example.tp_unsplash
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
+import com.example.tp_unsplash.api.UnSplashRetrofit
+import com.example.tp_unsplash.api.UnSplashRetrofitService
 import com.example.tp_unsplash.databinding.ActivityMainBinding
+import com.example.tp_unsplash.repository.UnSplashRepository
+import com.example.tp_unsplash.viewmodels.LikedPhotosViewModel
+import com.example.tp_unsplash.viewmodels.LikedPhotosViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+
+private const val USERNAME = "knockace"
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
+    private lateinit var viewModel: LikedPhotosViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        // Service for api calls
+        val service: UnSplashRetrofitService = UnSplashRetrofit.getService()
+        // database
+        val database = UnSplashRoomDatabase.getDatabase(this)
+        // Dao for database
+        val dao = database.getLikedPhotoDao()
+        // Repository that will be used by the view model
+        val repository = UnSplashRepository(service, dao)
+        viewModel = ViewModelProvider(this, LikedPhotosViewModelFactory(repository))[LikedPhotosViewModel::class.java]
+        //viewModel.initLikedPhotos(USERNAME)
     }
 
     override fun onStart() {

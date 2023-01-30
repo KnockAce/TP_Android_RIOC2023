@@ -72,7 +72,7 @@ class DetailPhotoView : AppCompatActivity() {
                 Log.d("Like button", "We will like the photo")
                 // If not like we want to like it
                 binding.btnLike.setBackgroundResource(R.drawable.btn_like_style)
-                viewModel.likePhoto(photoId)
+                viewModel.likePhoto(photo)
                 isLiked = true
                 // Add like to txtNbLikes
                 "Likes : " + (photo.likes + 1).toString().also { binding.txtNbLikes.text = it }

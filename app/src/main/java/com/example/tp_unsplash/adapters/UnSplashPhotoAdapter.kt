@@ -23,7 +23,6 @@ class UnSplashPhotoAdapter(private var photos: List<UnSplashPhoto>) : RecyclerVi
             photo.setOnClickListener {
                 val intent = Intent(itemView.context, DetailPhotoView::class.java)
                 intent.putExtra("photo", unsplash_photo)
-
                 itemView.context.startActivity(intent)
             }
         }

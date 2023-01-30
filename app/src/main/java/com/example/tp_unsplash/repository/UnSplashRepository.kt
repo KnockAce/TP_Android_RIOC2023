@@ -15,12 +15,12 @@ class UnSplashRepository(private val service: UnSplashRetrofitService,
         return service.likePhoto(id)
     }
 
-    suspend fun addPhotoToDb(photoId:  String) {
+    suspend fun addPhotoToDb(photo:  UnSplashPhoto) {
         // TODO: Avoid to make a request to get the photo
-        val photo = service.getPhoto(photoId)
-        val description = photo.alt_description
+        //val photo = service.getPhoto(photoId)
+        val description = photo.alt_description ?: "No description"
         val likedPhoto = LikedPhotos(0,
-            true,photo.likes,photo.urls.full,description,photoId)
+            true,photo.likes,photo.urls.full,description,photo.id)
         dao.insert(likedPhoto)
     }
 
