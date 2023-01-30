@@ -54,4 +54,16 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_description"
         app:layout_constraintVertical_bias="0.777" />
 
+    <TextView
+        android:id="@+id/txt_nb_likes"
+        android:layout_width="90dp"
+        android:layout_height="48dp"
+        android:text="Likes :"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.857"
+        app:layout_constraintStart_toEndOf="@+id/txt_author_name"
+        app:layout_constraintTop_toBottomOf="@+id/txt_description"
+        app:layout_constraintVertical_bias="0.265" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

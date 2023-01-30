@@ -3,8 +3,6 @@ package com.example.tp_unsplash
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import com.example.tp_unsplash.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -20,14 +18,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        // Random photo
-        binding.btnWelcome.setOnClickListener {
-            val intent = Intent(this, PhotoViewActivity::class.java)
-            startActivity(intent)
-        }
-        // Search photo
-        binding.btnGoLikedPhotos.setOnClickListener {
-            val intent = Intent(this, LikedPhotoViewActivity::class.java)
+
+
+        binding.btnSearchPhotos.setOnClickListener {
+            val intent = Intent(this, SearchViewActivity::class.java)
+            intent.putExtra("search", binding.editSearchInput.text.toString())
             startActivity(intent)
         }
 
@@ -38,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     fun setUpMenu(navMenu: BottomNavigationView){
         // Set selected item
-        navMenu.selectedItemId = R.id.action_home;
+        navMenu.selectedItemId = R.id.action_home
         // Switch between activities
         navMenu.setOnItemSelectedListener {
             when (it.itemId) {

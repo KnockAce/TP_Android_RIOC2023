@@ -3,10 +3,7 @@ package com.example.tp_unsplash.repository
 import com.example.tp_unsplash.api.UnSplashRetrofitService
 import com.example.tp_unsplash.dao.LikedPhotoDao
 import com.example.tp_unsplash.models.LikedPhotos
-import com.example.tp_unsplash.schemas.Links
 import com.example.tp_unsplash.schemas.UnSplashPhoto
-import com.example.tp_unsplash.schemas.UnSplashUser
-import com.example.tp_unsplash.schemas.Urls
 
 class UnSplashRepository(private val service: UnSplashRetrofitService,
                          private val dao: LikedPhotoDao) {
@@ -21,7 +18,7 @@ class UnSplashRepository(private val service: UnSplashRetrofitService,
     suspend fun addPhotoToDb(photoId:  String) {
         // TODO: Avoid to make a request to get the photo
         val photo = service.getPhoto(photoId)
-        val description = photo.alt_description ?: "No description"
+        val description = photo.alt_description
         val likedPhoto = LikedPhotos(0,
             true,photo.likes,photo.urls.full,description,photoId)
         dao.insert(likedPhoto)
@@ -49,7 +46,10 @@ class UnSplashRepository(private val service: UnSplashRetrofitService,
     }
 
     suspend fun getCount() : Int {
-
         return dao.getCount()
+    }
+
+    suspend fun searchPhotos(search: String, page: Int = 1, per_page: Int = 10) : List<UnSplashPhoto>{
+        return service.searchPhotos(search, page, per_page).results
     }
 }

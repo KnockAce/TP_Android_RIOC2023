@@ -63,7 +63,7 @@ class LikedPhotoViewActivity : AppCompatActivity() {
         navMenu.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.action_home -> {
-                    //startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                     // Get current position in recycler view
                     val position = (binding.recyclerView.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findFirstVisibleItemPosition()
                     Log.d("position", position.toString())

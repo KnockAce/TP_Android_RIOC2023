@@ -44,7 +44,7 @@ class DetailPhotoView : AppCompatActivity() {
         "Author: ${photo.user.name}".also { binding.txtAuthorName.text = it }
         var isLiked = photo.liked_by_user
         "Description : ${photo.alt_description}".also { binding.txtDescription.text = it }
-
+        "Likes : ${photo.likes}".also { binding.txtNbLikes.text = it }
         // Apply style to like btn
         if(isLiked) {
             // If arleady like we want to un-like it
@@ -64,6 +64,8 @@ class DetailPhotoView : AppCompatActivity() {
                 binding.btnLike.setBackgroundResource(R.drawable.btn_unlike_style)
                 viewModel.unlikePhoto(photoId)
                 isLiked = false
+                // Remove like to txtNbLikes
+                "Likes : " + (photo.likes - 1).toString().also { binding.txtNbLikes.text = it }
                 Log.i("Like button", "We unliked the photo successfully")
                 Toast.makeText(this, "We unliked the photo successfully", Toast.LENGTH_SHORT).show()
             } else {
@@ -72,6 +74,8 @@ class DetailPhotoView : AppCompatActivity() {
                 binding.btnLike.setBackgroundResource(R.drawable.btn_like_style)
                 viewModel.likePhoto(photoId)
                 isLiked = true
+                // Add like to txtNbLikes
+                "Likes : " + (photo.likes + 1).toString().also { binding.txtNbLikes.text = it }
                 Log.i("Like button", "We liked the photo successfully")
                 Toast.makeText(this, "We liked the photo successfully", Toast.LENGTH_SHORT).show()
 
